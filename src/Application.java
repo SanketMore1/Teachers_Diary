@@ -227,7 +227,7 @@ public class Application {
 
     }
 
-    void add(){
+    void add() {
         System.out.println("Please enter student ID");
         try {
             id = sc.nextInt();
@@ -262,12 +262,39 @@ public class Application {
         }
 
 
-stu.setName(name);
+        stu.setName(name);
         stu.setAge(age);
-        record.add(stu);
-        System.out.println("Student added succesfully");
-    }
 
+int p,c,m;
+        System.out.println("Do you want to fill student grades :");
+        System.out.println("1. Yes");
+        System.out.println("2. No");
+
+        int choice = sc.nextInt();
+        if (choice == 1) {
+            System.out.println("Please enter student Physics Score");
+             p = sc.nextInt();
+
+            System.out.println("Please enter student Chemistry Score");
+             c = sc.nextInt();
+
+            System.out.println("Please enter student's Maths Score");
+
+               m = sc.nextInt();
+
+
+     Grades gd = new Grades(p,c,m);
+
+     stu.setGrades(gd);
+
+
+
+
+
+            record.add(stu);
+            System.out.println("Student added succesfully");
+        }
+    }
 
     private void view_all() {
 
@@ -275,7 +302,10 @@ stu.setName(name);
         for (Student stud : record) {
             if (record.contains(stud)) {
 
-                System.out.println(stud);
+                System.out.print(stud );
+
+                stud.grades.getGrades();
+                System.out.println("--------------------------------------------------------------------------------------");
             } else {
                 count++;
 
@@ -357,7 +387,7 @@ stu.setName(name);
             System.out.println("Data is not available.");
             return;
         }
-        else{boolean state = false;
+        else{boolean flag = false;
             for(Student stu : record){
 
                 if(stu.getId()==id){
@@ -367,10 +397,10 @@ stu.setName(name);
                     if(confirm==id){
                     record.remove(stu);
                     System.out.println("Student with given id deleted Successfully ");
-                  state=true;}
+                  flag=true;}
                 }
             }
-            if(!state)
+            if(!flag)
             {
                 System.out.println("Data is not available for given id :");
                 return;
@@ -504,6 +534,36 @@ void Support_Search(){
 
 
 }
+
+//
+//void Support_grades(){
+//        System.out.println("Do you want to fill student grades :");
+//    System.out.println("1. Yes");System.out.println("2. No");
+//
+//    int choice =sc.nextInt();
+//    if(choice==1){
+//        System.out.println("Please enter student Physics Score");
+//        int p= sc.nextInt();
+//
+//        System.out.println("Please enter student Chemistry Score");
+//        int c= sc.nextInt();
+//
+//        System.out.println("Please enter student's Maths Score");
+//        int m= sc.nextInt();
+//
+//        Grades gd = new Grades();
+//        gd.setGrades(p,c,m);
+//
+//
+//
+//    }
+//
+//
+//
+//
+//    }
+
+
 
     void getMsg(){
 

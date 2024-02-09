@@ -5,6 +5,7 @@ public class Student {
     private int id;
     private String name;
     private int age;
+    Grades grades;
 
     @Override
     public boolean equals(Object o) {
@@ -45,7 +46,9 @@ public class Student {
         this.age = age;
     }
 
-    Grades grades;
+
+
+
 
 
 Student(){
@@ -74,13 +77,24 @@ Student(){
 //
 //
 //}
+public Student(int id,String name,int age,Grades grades){
+    super();
+    this.id=id;
+    this.name=name;
+    this.age=age;
+    this.grades=grades;
 
 
+}
 
+public Student(Grades grades){
 
+        this.grades=grades;
+}
 
-
-
+    public void setGrades(Grades grades) {
+        this.grades = grades;
+    }
 
     public String toString(){
         return "[ Student id  "+ id + ",  name "+ name+ ",  age "+ age +" ]";
@@ -105,7 +119,7 @@ class Grades{
     int total;
     int average;
 
-
+Grades(){}
 
     public Grades(int physics,int chemistry,int maths){
         this.physics=physics;
@@ -113,6 +127,19 @@ class Grades{
         this.maths=maths;
         this.total= physics+chemistry+maths;
         this.average= total/3;
+    }
+    public void setGrades(int physics,int chemistry,int maths){
+        this.physics=physics;
+        this.chemistry=chemistry;
+        this.maths=maths;
+        this.total= physics+chemistry+maths;
+        this.average= total/3;
+    }
+
+    public void getGrades(){
+        int total = physics+chemistry+maths;
+        int avg = (total/3);
+        System.out.println("[ physics = "+physics+ ", Chemistry = "+chemistry +",Maths = "+maths+",Total Marks = "+total +",Average = "+ avg+"% ]");
     }
 
 }
