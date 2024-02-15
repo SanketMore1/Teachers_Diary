@@ -1,11 +1,18 @@
-import java.util.Objects;
+import java.util.*;
 
-public class Student {
+public class Student implements Comparator<Student>{
 
     private int id;
     private String name;
     private int age;
     Grades grades;
+
+
+
+    @Override
+    public int compare(Student o1, Student o2) {
+        return Integer.compare(o1.getAge(), o2.getAge());
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -47,99 +54,61 @@ public class Student {
     }
 
 
-
-
-
-
-Student(){
-
-}
-
-//public Student(String name,int age,Grades grades){
-//    this.id=++id;
-//    this.name=name;
-//    this.age=age;
-//    this.grades=grades;
-//
-//}
-
-    public Student(int id,String name,int age){
-    super();
-    this.id=id;
-        this.name=name;
-        this.age=age;
-
+    Student() {
 
     }
 
 
-//boolean update(int id,String name,int age, int grades){
-//
-//
-//}
-public Student(int id,String name,int age,Grades grades){
-    super();
-    this.id=id;
-    this.name=name;
-    this.age=age;
-    this.grades=grades;
+    public Student(int id, String name, int age) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.age = age;
 
 
-}
+    }
 
-public Student(Grades grades){
+    public Student(int id, String name, int age, Grades grades) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.grades = grades;
 
-        this.grades=grades;
-}
+
+    }
+
+    public Student(Grades grades) {
+
+        this.grades = grades;
+    }
 
     public void setGrades(Grades grades) {
         this.grades = grades;
     }
 
-    public String toString(){
-        return "[ Student id  "+ id + ",  name "+ name+ ",  age "+ age +" ]";
+    public String toString() {
+        return "[ Student id  " + id + ",  name " + name + ",  age " + age + " ]";
     }
 
 
-    Student update(int id, String name, int age){
-    this.id=id;
-    this.name=name;
-    this.age =age;
-return this;
+    Student update(int id, String name, int age) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        return this;
 
     }
+
+
+
+
+
+
+
+
+
 }
 
 
 
-class Grades{
-    int physics;
-    int chemistry;
-    int maths;
-    int total;
-    int average;
-
-Grades(){}
-
-    public Grades(int physics,int chemistry,int maths){
-        this.physics=physics;
-        this.chemistry=chemistry;
-        this.maths=maths;
-        this.total= physics+chemistry+maths;
-        this.average= total/3;
-    }
-    public void setGrades(int physics,int chemistry,int maths){
-        this.physics=physics;
-        this.chemistry=chemistry;
-        this.maths=maths;
-        this.total= physics+chemistry+maths;
-        this.average= total/3;
-    }
-
-    public void getGrades(){
-        int total = physics+chemistry+maths;
-        int avg = (total/3);
-        System.out.println("[ physics = "+physics+ ", Chemistry = "+chemistry +",Maths = "+maths+",Total Marks = "+total +",Average = "+ avg+"% ]");
-    }
-
-}
