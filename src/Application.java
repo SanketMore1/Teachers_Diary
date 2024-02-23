@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class Application {
@@ -12,9 +13,7 @@ public class Application {
 
     List<Student> record = new ArrayList<>();
     Map<Integer, List<Student>> studentMap = new HashMap<>();
-  //  Set<Integer> studentIds = new HashSet<>();
-
-
+    //  Set<Integer> studentIds = new HashSet<>();
 
 
     Scanner sc = new Scanner(System.in);
@@ -58,7 +57,7 @@ public class Application {
                         break;
 
                     case 7:
-                        // app.display();
+                        app.results();
                         break;
 
                     case 8:
@@ -66,8 +65,8 @@ public class Application {
                         System.exit(0);
 
                     case 9:
-                        app.dump_data();
-                        break;
+                         app.dump_data();
+                         break;
 
                 }
 
@@ -139,14 +138,14 @@ public class Application {
             physicsScore = sc.nextInt();
 
             System.out.println("Please enter student Chemistry Score");
-            chemistryScore= sc.nextInt();
+            chemistryScore = sc.nextInt();
 
             System.out.println("Please enter student's Maths Score");
 
-            mathsScore= sc.nextInt();
+            mathsScore = sc.nextInt();
 
 
-            Grades gd = new Grades(physicsScore, chemistryScore,mathsScore);
+            Grades gd = new Grades(physicsScore, chemistryScore, mathsScore);
 
             stu.setGrades(gd);
 
@@ -154,7 +153,7 @@ public class Application {
             record.add(stu);
 
             addStudent(stu);
-         //   System.out.println("Student added successfully");
+            //   System.out.println("Student added successfully");
         } else if (choice == 2) {
 
             record.add(stu);
@@ -196,7 +195,6 @@ public class Application {
 //            System.out.println("Student with ID " + student.getId() + " already exists.");
 //        }
 //    }
-
 
 
     private void view_All() {
@@ -369,7 +367,7 @@ public class Application {
 
             System.out.println("Enter the standard 1/2/3 :");
             int n = sc.nextInt();
-            System.out.println("Students from Standard : "+n);
+            System.out.println("Students from Standard : " + n);
             List<Student> temper = getStudentsByStandard(n);
 
             for (Student stu : temper) {
@@ -378,6 +376,32 @@ public class Application {
 
 
         }
+    }
+
+
+    void results() {
+
+        System.out.println("Enter the (%) value above which students record you need :");
+        int choice = sc.nextInt();
+
+        getResults(choice);
+    }
+
+    void getResults(int target) {
+        System.out.println("Students Above "+ target +"% are :");
+        // Use streams to filter and collect students with grades above target
+        List<Student> highPerformingStudents = record.stream()
+                .filter(student ->student.grades!=null && student.grades.getAverage()  > target)
+                .collect(Collectors.toList());
+
+        // Print the high-performing students
+        highPerformingStudents.forEach(student -> System.out.println(student.toString()+student.grades.toString()
+
+
+        ));
+
+
+
     }
 
 
@@ -505,9 +529,9 @@ public class Application {
 
         System.out.println(" 7. Display Statistics ");
 
-        System.out.println("8. Exit ");
+        System.out.println(" 8. Exit ");
 
-        System.out.println("9. Dump Data ");
+        System.out.println(" 9. Dump Data ");
 
         System.out.println("Enter your choice: ");
         operation = sc.nextInt();

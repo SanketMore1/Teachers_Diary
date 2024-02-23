@@ -30,5 +30,16 @@ class Grades {
         System.out.println("[ physics = " + physics + ", Chemistry = " + chemistry + ",Maths = " + maths + ",Total Marks = " + total + ",Average = " + avg + "% ]");
     }
 
+    public int getAverage(){
+        int total = physics + chemistry + maths;
+       if(this.total==0){return 0;}else{
+        return total/3;}
+    }
+
+    public String toString(){
+
+           return "[ physics = " + physics + ", Chemistry = " + chemistry + ",Maths = " + maths + ",Total Marks = " + total + ",Average = " + total / 3 + "% ]";
+
+    }
 
 }
