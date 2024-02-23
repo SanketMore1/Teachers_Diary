@@ -1,5 +1,6 @@
 import java.util.*;
-import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
+
 
 public class Application {
 
@@ -7,10 +8,13 @@ public class Application {
     int id;
     String name;
     int operation;
-    int search;
     int age;
+    int standard;
 
-    ArrayList<Student> record = new ArrayList<>();
+    List<Student> record = new ArrayList<>();
+    Map<Integer, List<Student>> studentMap = new HashMap<>();
+    //  Set<Integer> studentIds = new HashSet<>();
+
 
     Scanner sc = new Scanner(System.in);
 
@@ -18,8 +22,6 @@ public class Application {
     public static void main(String[] args) {
 
         Application app = new Application();
-
-
 
 
         try {
@@ -34,9 +36,7 @@ public class Application {
                         break;
 
                     case 2:
-                        app.view_all();
-                        // Print the list sorted by age
-
+                        app.view_All();
                         break;
 
                     case 3:
@@ -57,7 +57,7 @@ public class Application {
                         break;
 
                     case 7:
-                        // app.display();
+                        app.results();
                         break;
 
                     case 8:
@@ -65,8 +65,8 @@ public class Application {
                         System.exit(0);
 
                     case 9:
-                        app.dump_data();
-                        break;
+                         app.dump_data();
+                         break;
 
                 }
 
@@ -81,6 +81,14 @@ public class Application {
     }
 
     void add() {
+        System.out.println("Please enter student Class");
+        try {
+            standard = sc.nextInt();
+        } catch (Exception e) {
+            System.out.println(" Ignore below message and please enter input of integer type only");
+            return;
+        }
+
         System.out.println("Please enter student ID");
         try {
             id = sc.nextInt();
@@ -98,8 +106,9 @@ public class Application {
         }
 
         Student stu = new Student();
-        stu.setId(id);
 
+        stu.setId(id);
+        stu.setStandard(standard);
         System.out.println("Please enter student Name:");
         try {
             name = sc.next();
@@ -118,7 +127,7 @@ public class Application {
         stu.setName(name);
         stu.setAge(age);
 
-        int p, c, m;
+        int physicsScore, chemistryScore, mathsScore;
         System.out.println("Do you want to fill student grades :");
         System.out.println("1. Yes");
         System.out.println("2. No");
@@ -126,35 +135,73 @@ public class Application {
         int choice = sc.nextInt();
         if (choice == 1) {
             System.out.println("Please enter student Physics Score");
-            p = sc.nextInt();
+            physicsScore = sc.nextInt();
 
             System.out.println("Please enter student Chemistry Score");
-            c = sc.nextInt();
+            chemistryScore = sc.nextInt();
 
             System.out.println("Please enter student's Maths Score");
 
-            m = sc.nextInt();
+            mathsScore = sc.nextInt();
 
 
-            Grades gd = new Grades(p, c, m);
+            Grades gd = new Grades(physicsScore, chemistryScore, mathsScore);
 
             stu.setGrades(gd);
 
 
             record.add(stu);
 
-            System.out.println("Student added successfully");
+            addStudent(stu);
+            //   System.out.println("Student added successfully");
         } else if (choice == 2) {
+
             record.add(stu);
-           // studentHashSet.add(stu);
+
+            addStudent(stu);
+
+
             System.out.println("Student added successfully");
-            //return;
+
         }
     }
 
-    private void view_all() {
+    public void addStudent(Student student) {
+        int standard = student.getStandard();
+
+        // Check if the standard key already exists in the map
+        if (studentMap.containsKey(standard)) {
+            // If it exists, add the student to the existing list
+            List<Student> students = studentMap.get(standard);
+            students.add(student);
+        } else {
+            // If it doesn't exist, create a new list and add the student
+            List<Student> students = new ArrayList<>();
+            students.add(student);
+            studentMap.put(standard, students);
+        }
+    }
+//    public void addStudentId(Student student) {
+//        // Check if the student ID already exists
+//        if (!studentIds.contains(student.getId())) {
+//            // Add the student to the ArrayList
+//            record.add(student);
+//
+//            // Add the student ID to the HashSet
+//            studentIds.add(student.getId());
+//
+//            System.out.println("Student added successfully.");
+//        } else {
+//            System.out.println("Student with ID " + student.getId() + " already exists.");
+//        }
+//    }
+
+
+    private void view_All() {
 
         int count = 0;
+
+
         for (Student stud : record) {
             if (record.contains(stud)) {
 
@@ -168,6 +215,8 @@ public class Application {
 
             }
         }
+
+
         if (count == record.size()) {
             System.out.println("No Data available");
             System.out.println();
@@ -192,7 +241,7 @@ public class Application {
             }
             boolean state = false;
 
-            state = false;
+
             if (record.size() == 0) {
                 System.out.println("Record is empty");
                 System.out.println();
@@ -225,7 +274,7 @@ public class Application {
                     break;
                 }
             }
-            if (state == false) {
+            if (!state) {
                 System.out.println("No record with id :" + id);
                 System.out.println();
             }
@@ -258,7 +307,7 @@ public class Application {
             }
             if (!flag) {
                 System.out.println("Data is not available for given id :");
-               // return;
+                // return;
             }
         }
     }
@@ -266,50 +315,104 @@ public class Application {
     void sort() {
 
 
-
         System.out.println("To Sort the records enter adjacent number :");
         System.out.println("1. Id");
         System.out.println("2. Name");
         System.out.println("3. Age");
-int ch = sc.nextInt();
+        System.out.println("4. Standard");
+        int ch = sc.nextInt();
 
-if(ch==3) {
+        if (ch == 3) {
 // by age
-    System.out.println("Sorting by age");
-    Comparator byAge = Comparator.comparingInt(Student::getAge);
-    Collections.sort(record, byAge);
+            System.out.println("Sorting by age");
+            Comparator byAge = Comparator.comparingInt(Student::getAge);
+            Collections.sort(record, byAge);
 
-    for (Student stu : record
-    ) {
-        System.out.println(stu);
-    }
-}else if(ch==1) {
+            for (Student stu : record
+            ) {
+                System.out.println(stu);
+            }
+        } else if (ch == 1) {
 // by id
-    System.out.println("Sorting by id");
-    Comparator byId = Comparator.comparingInt(Student::getId);
-    Collections.sort(record, byId);
+            System.out.println("Sorting by id");
+            Comparator byId = Comparator.comparingInt(Student::getId);
+            Collections.sort(record, byId);
 
-    for (Student stu : record
-    ) {
-        System.out.println(stu);
-    }
-}
-else if(ch==2) {
+            for (Student stu : record
+            ) {
+                System.out.println(stu);
+            }
+        } else if (ch == 2) {
 // by name
-    System.out.println("Sorting by Name");
-    Comparator byName = Comparator.comparing(Student::getName);
-    Collections.sort(record, byName);
+            System.out.println("Sorting by Name");
+            Comparator byName = Comparator.comparing(Student::getName);
+            Collections.sort(record, byName);
 
-    for (Student stu : record
-    ) {
-        System.out.println(stu);
+            for (Student stu : record
+            ) {
+                System.out.println(stu);
+            }
+        } else if (ch == 4) {
+// by standard
+//            System.out.println("Sorting by Standard");
+//            Comparator byStandard = Comparator.comparing(Student::getStandard);
+//            Collections.sort(record, byStandard);
+//
+//            for (Student stu : record
+//            ) {
+//                System.out.println(stu);
+//            }
+
+            // System.out.println("---- Below output is coming from Hashmap logic ----");
+
+            System.out.println("Enter the standard 1/2/3 :");
+            int n = sc.nextInt();
+            System.out.println("Students from Standard : " + n);
+            List<Student> temper = getStudentsByStandard(n);
+
+            for (Student stu : temper) {
+                System.out.println(stu.toString());
+            }
+
+
+        }
     }
-}
+
+
+    void results() {
+
+        System.out.println("Enter the (%) value above which students record you need :");
+        int choice = sc.nextInt();
+
+        getResults(choice);
     }
+
+    void getResults(int target) {
+        System.out.println("Students Above "+ target +"% are :");
+        // Use streams to filter and collect students with grades above target
+        List<Student> highPerformingStudents = record.stream()
+                .filter(student ->student.grades!=null && student.grades.getAverage()  > target)
+                .collect(Collectors.toList());
+
+        // Print the high-performing students
+        highPerformingStudents.forEach(student -> System.out.println(student.toString()+student.grades.toString()
+
+
+        ));
+
+
+
+    }
+
+
+    public List<Student> getStudentsByStandard(int standard) {
+        return studentMap.getOrDefault(standard, new ArrayList<>());
+    }
+
 
     void search() {
 
-        Support_Search();
+        SupportSearch();
 
     }
 
@@ -325,13 +428,15 @@ else if(ch==2) {
         record.add(st4);
         record.add(st3);
         record.add(st5);
+
     }
 
-    void Support_Search() {
+    void SupportSearch() {
         System.out.println("Search using :");
         System.out.println("1. ID");
         System.out.println("2. Name");
         System.out.println("3. Age");
+
         int choice = sc.nextInt();
         ArrayList<Student> temp = new ArrayList<>();
 
@@ -386,8 +491,7 @@ else if(ch==2) {
 
                 if (stu.getAge() == age) {
                     temp.add(stu);
-//                System.out.println("Student found with given age as :");
-//                System.out.println(stu.toString());
+
                     flag = false;
 
                 }
@@ -425,16 +529,13 @@ else if(ch==2) {
 
         System.out.println(" 7. Display Statistics ");
 
-        System.out.println("8. Exit ");
+        System.out.println(" 8. Exit ");
 
-        System.out.println("9. Dump Data ");
+        System.out.println(" 9. Dump Data ");
 
         System.out.println("Enter your choice: ");
         operation = sc.nextInt();
     }
-
-
-
 
 
 }

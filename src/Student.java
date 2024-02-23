@@ -1,12 +1,12 @@
 import java.util.*;
 
-public class Student implements Comparator<Student>{
+public class Student implements Comparator<Student> {
 
     private int id;
     private String name;
     private int age;
+    private int standard;
     Grades grades;
-
 
 
     @Override
@@ -49,16 +49,23 @@ public class Student implements Comparator<Student>{
         return age;
     }
 
+
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public int getStandard(){
+        return standard;
+    }
+
+    public void setStandard(int val){
+        this.standard=val;
     }
 
 
     Student() {
 
     }
-
-
     public Student(int id, String name, int age) {
         super();
         this.id = id;
@@ -68,13 +75,22 @@ public class Student implements Comparator<Student>{
 
     }
 
-    public Student(int id, String name, int age, Grades grades) {
+    public Student(int id, String name, int age,int standard) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.age = age;
+       this.standard= standard;
+
+    }
+
+    public Student(int id, String name, int age,int standard, Grades grades) {
         super();
         this.id = id;
         this.name = name;
         this.age = age;
         this.grades = grades;
-
+this.standard= standard;
 
     }
 
@@ -88,7 +104,7 @@ public class Student implements Comparator<Student>{
     }
 
     public String toString() {
-        return "[ Student id  " + id + ",  name " + name + ",  age " + age + " ]";
+        return "[ Student id  " + id + ",  name " + name + ",  age " + age +" ]";
     }
 
 
@@ -99,13 +115,6 @@ public class Student implements Comparator<Student>{
         return this;
 
     }
-
-
-
-
-
-
-
 
 
 }
